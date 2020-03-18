@@ -1,0 +1,23 @@
+{
+  "name": "js-fstorm-http-client",
+  "version": "0.0.1-alpha.2",
+  "description": "This is an alpha version",
+  "main": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "longjinwen<204084802@qq.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "file-type": "^14.1.4"
+  },
+  "dependencies": {
+    "storm3": "^0.0.1-alpha.2",
+    "ipfs-http-client": "^42.0.0",
+    "ethereumjs-tx": "1.3.7"
+  }
+}
