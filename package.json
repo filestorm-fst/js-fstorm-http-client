@@ -12,6 +12,14 @@
   "keywords": [],
   "author": "longjinwen<204084802@qq.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/filestorm-fst/js-fstorm-http-client/issues"
+  },
+  "homepage": "https://github.com/filestorm-fst/js-fstorm-http-client#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filestorm-fst/js-fstorm-http-client.git"
+  },
   "devDependencies": {
     "file-type": "^14.1.4"
   },
