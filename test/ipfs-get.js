@@ -20,9 +20,10 @@ const FileType = require('file-type');
   }
   */
 
-  let files = fStormHttpClient.get('QmNWM9kwgnsskedBMNm7U2T9MXg2Cd4KkwRhMJNuD5UFXt');
+  let files = fStormHttpClient.get('QmRUMzH2KMmo9LowDoYcGBUf3GfT8Wh5MwhrXxyzF4KZsR');
 
   for await (const file of files) {
+    console.log(file);
     let bufferArray = [];
     for await (const chunk of file.content) {
       bufferArray.push(chunk._bufs[0]);
@@ -30,7 +31,8 @@ const FileType = require('file-type');
 
     // 合并 buffer
     let buffer = Buffer.concat(bufferArray);
-    console.log(buffer);
+
+    console.log(buffer.length);
     // 获取
     let fileType = await FileType.fromBuffer(buffer);
     // 后缀
@@ -39,7 +41,7 @@ const FileType = require('file-type');
     let mimeType = fileType.mime;
     console.log(mimeType);
     // 保存文件
-    fs.writeFileSync(path.resolve(__dirname, './save-file.' + ext), buffer);
+    // fs.writeFileSync(path.resolve(__dirname, './save-file.' + ext), buffer);
 
   }
 

@@ -12,3 +12,5 @@ yarn-error.log*
 /test/config.js
 transaction.test.js
 .cache.***.json
+***.wmv
+***.enc

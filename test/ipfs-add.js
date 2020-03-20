@@ -9,10 +9,36 @@ const fs = require('fs');
     IPFSProvider: config.IPFSProvider,
     chainProvider: config.chainProvider,
     chainAccount: {
-      privateKey: '4099a9cdefc9c23466bb5552e90f07292bc8c367957d389feacb737b8530dad9'
-    },
-
+      privateKey: '0xe73fb7deae271d3b7f8a0f5b2040047dc6ee77e38d2c746d09689f3eb1c6b3d5'
+    }
   });
+
+
+  fStormHttpClient.setChainAccount({
+    keystore: {
+      'version': 3,
+      'id': 'a0ced7fa-3e2d-4234-b6d4-7647a7dbfb6f',
+      'address': 'e11ed3915fab957f2ea2b1395318eae9fb6ed18b',
+      'crypto': {
+        'ciphertext': '63b40a50705514a305170d9714643f81ecb5a8b283ae841abc5ad5ea176039c9',
+        'cipherparams': {'iv': '4fa8dfec4cfe20f413a04635d6fdf29a'},
+        'cipher': 'aes-128-ctr',
+        'kdf': 'scrypt',
+        'kdfparams': {
+          'dklen': 32,
+          'salt': '58e5f2e559ab74b930ec13fb8ad6c970b9164bcdcde1db284075093446f4d84f',
+          'n': 8192,
+          'r': 8,
+          'p': 1
+        },
+        'mac': '156fea5c2d3dfbf7a04c68a0f2ee6409638caf7203f44d9094a216b0f294d516'
+      }
+    },
+    password: '123456'
+  });
+
+  fStormHttpClient.setChainProvider(config.chainProvider);
+
   // ----------------------
   // 001
   /*
@@ -34,11 +60,10 @@ const fs = require('fs');
     */
   const files = [{
     path: '/tmp/myfile2.txt',
-    // content: 'ABC'
   }];
 
   for await (const result of fStormHttpClient.add(files)) {
-    console.log(result);
+    console.log(result.cid.toString());
   }
 
   // console.log(jsFStormHttpClient.multibase);

@@ -13,7 +13,7 @@ const FileType = require('file-type');
     },
   });
 
-  let files = await fStormHttpClient.cat('QmSNa6MU4L4FsvRFKc1Ch5mecCxSfuEdrkxWCnvSSYMzZz');
+  let files = await fStormHttpClient.cat('QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn/QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn');
   let bufferArray = [];
   for await (let res of files) {
     bufferArray.push(res);

@@ -24,14 +24,31 @@ class LocalCache {
   }
 }
 
-function Chain(...args) {
+function Chain() {
   let localCache;
-  this.storm3 = new Storm3(...args);
+  this.storm3 = new Storm3();
+  /**
+   *
+   * */
   this.account = {
     fromPrivateKey: '',
     fromAddress: '',
     toAddress: ''
   };
+  /**
+   *
+   * */
+  this.setChainProvider = function (...args) {
+    this.storm3 = new Storm3(...args);
+    this.storm3.fst.isSyncing()
+      .catch(() => {
+        throw new Error('Can\'t connect to chain');
+      });
+  };
+
+  /**
+   *
+   * */
   this.sendTransaction = async function (txDataString) {
     return new Promise(async (resolve, reject) => {
 
@@ -59,7 +76,6 @@ function Chain(...args) {
       tx.sign(privateKey);
       let serializedTx = tx.serialize();
       let hash = await this.storm3.fst.sendSignedTransaction('0x' + serializedTx.toString('hex'));
-      // let hash = '';
       // set nonce to local storage
       localCache.set('nonce', nonce);
 
@@ -67,13 +83,18 @@ function Chain(...args) {
     });
 
   };
-  this.register = function (fStormHttpClient) {
-    fStormHttpClient.chain = this;
-  };
+
+  /**
+   *
+   * */
   this.emit = async function (data) {
     await this.sendTransaction(data.data);
   };
+  /**
+   *
+   * */
   this.setAccount = function (account) {
+
     account = JSON.parse(JSON.stringify(account));
     if (account.privateKey) {
       if (account.privateKey.substr(0, 2) !== '0x') {
@@ -90,7 +111,6 @@ function Chain(...args) {
       this.account.toAddress = this.account.fromAddress;
       this.account.fromPrivateKey = acc.privateKey.slice(2);
     }
-
 
     try {
       localCache = new LocalCache(this.account.fromAddress);
