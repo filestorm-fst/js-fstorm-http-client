@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="./assets/app.css">
+</head>
+<body>
+<div id="app">
+    <h1>js-fstorm-http-client-demo</h1>
+    <div class="upload">
+        <input accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" type="file" id="file">
+        <button :disabled="isUploadIng" @click="upload">{{!isUploadIng?'Upload':'Loading..'}}</button>
+    </div>
+    <ul v-if="list.length > 0" class="list">
+        <li v-for="(item,index) in list">
+            <div class="title" style="font-weight: bold">{{index + 1}}</div>
+            <div class="content">- <span style="font-weight: bold">cid：</span>{{item.cid}}</div>
+            <div class="content"><span style="font-weight: bold">Time：</span>{{item.time}}</div>
+
+            <div class="action">
+                <span @click="download(item)">Download</span>
+            </div>
+            <div v-if="index + 1 === list.length"><img
+                    style="height: 50px" :src="'/api/main/download?cid='+item.cid" alt=""></div>
+        </li>
+    </ul>
+    <ul v-if="list.length === 0">
+        <li>无</li>
+    </ul>
+</div>
+<script src="./assets/vue.min.js"></script>
+<script src="./assets/axios.min.js"></script>
+<script>
+
+  class Http {
+    constructor() {
+
+    }
+
+    request(config) {
+      return new Promise((resolve, reject) => {
+        axios.create({
+          baseURL: '/',
+          timeout: 999999999,
+          validateStatus: function (status) {
+            return status === 200;
+          }
+        })
+          .request(config)
+          .then(response => {
+            // 这里进行判断后端响应情况
+            if (response.data.code === 0) {
+              return resolve(response.data);
+            } else {
+              return reject({httpStatus: 200, message: response.data.message});
+            }
+          })
+          .catch(error => {
+            if (error.response) {
+              // 服务端抛出非200状态码
+              return reject({httpStatus: error.response.status, message: `Network error(${error.response.status})`});
+            }
+            // 服务端无响应，或者断网
+            reject({httpStatus: 0, message: 'Network error(0)'});
+          });
+      });
+    }
+  }
+
+  function parseDateTime(options = {format: null, timestamp: null}) {
+    !options.format && (options.format = 'y-m-d h:i:s');
+    !options.timestamp && (options.timestamp = null);
+    const date = options.timestamp === null ? new Date() : new Date(Number(options.timestamp)),
+      y = date.getFullYear(), m = date.getMonth() + 1,
+      d = date.getDate(), h = date.getHours(),
+      i = date.getMinutes(), s = date.getSeconds();
+    return options.format
+      .replace(/y/g, y).replace(/m/g, m < 10 ? '0' + m : m)
+      .replace(/d/g, d < 10 ? '0' + d : d).replace(/h/g, h < 10 ? '0' + h : h)
+      .replace(/i/g, i < 10 ? '0' + i : i).replace(/s/g, s < 10 ? '0' + s : s);
+  }
+
+  new Vue({
+    el: '#app',
+    data: {
+      list: [],
+      isUploadIng: false
+    },
+    mounted() {
+      this.getList();
+    },
+    methods: {
+      download(item) {
+        location.href = '/api/main/download?cid=' + item.cid;
+      },
+      upload(event) {
+        let formData = new FormData();
+        let input = document.querySelector('#file');
+        formData.append('file', input.files[0]);
+        this.isUploadIng = true;
+        new Http().request({
+          url: '/api/main/upload',
+          method: 'post',
+          data: formData
+        })
+          .then(({data}) => {
+            console.log(data);
+          })
+          .catch(error => {
+            alert(error.message);
+            // console.log(error);
+          })
+          .finally(() => {
+            this.isUploadIng = false;
+            this.getList();
+          });
+        console.log();
+      },
+      getList() {
+
+        new Http().request({
+          url: '/api/main/list',
+          method: 'get'
+        })
+          .then(({data}) => {
+            this.list = data.map(item => {
+              item.time = parseDateTime({timestamp: item.time});
+              return item;
+            });
+          })
+          .catch(error => {
+            alert(error.message + '(http status:' + error.httpStatus + ')');
+            // console.log(error);
+          });
+      }
+    }
+  });
+
+</script>
+</body>
+</html>

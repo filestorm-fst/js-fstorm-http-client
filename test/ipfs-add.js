@@ -52,19 +52,18 @@ const fs = require('fs');
   // ----------------------
   // 002 文件
 
+  let files = await fStormHttpClient.add(fs.readFileSync('C:\\Users\\Administrator\\Desktop\\WebStorm2020.exe'));
+  for await (let res of files) {
+    console.log(res.cid.toString());
+  }
   /*
-   let files = await fStormHttpClient.add(fs.readFileSync('C:\\Users\\Administrator\\Desktop\\Devpn.exe'));
-    for await (let res of files) {
-      console.log(res);
-    }
-    */
   const files = [{
     path: '/tmp/myfile2.txt',
   }];
 
   for await (const result of fStormHttpClient.add(files)) {
     console.log(result.cid.toString());
-  }
+  }*/
 
   // console.log(jsFStormHttpClient.multibase);
   // await IPFS.files.mkdir('/dir-002');

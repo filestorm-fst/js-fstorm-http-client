@@ -41,7 +41,7 @@ const FileType = require('file-type');
     let mimeType = fileType.mime;
     console.log(mimeType);
     // 保存文件
-    // fs.writeFileSync(path.resolve(__dirname, './save-file.' + ext), buffer);
+    fs.writeFileSync(path.resolve(__dirname, './save-file.' + ext), buffer);
 
   }
 

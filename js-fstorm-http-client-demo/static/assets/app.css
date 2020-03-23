@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  color: #333; }
+
+#app {
+  padding: 15px; }
+
+.upload {
+  margin-bottom: 15px; }
+
+button {
+  padding: 4px 8px; }
+
+ul {
+  list-style: none; }
+
+.list li {
+  word-break: break-all;
+  overflow: hidden; }
+  .list li div {
+    float: left;
+    margin-right: 10px; }
+  .list li .action {
+    color: #007eff;
+    cursor: pointer; }
+
+h1 {
+  display: flex;
+  justify-content: center;
+  padding: 50px 0;
+  font-size: 40px;
+  padding-left: 15px;
+  padding-right: 15px; }
+
+/*# sourceMappingURL=app.css.map */
