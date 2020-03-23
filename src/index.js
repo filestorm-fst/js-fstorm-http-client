@@ -157,9 +157,12 @@ FStormHttpClient.prototype.decrypt = function (filePath, password = null) {
       });
       readLine.on('close', () => {
 
-        let newPath = path.resolve(path.dirname(writeStreamFilePath), './' + readStreamFileInfo.name + encryptInfo.ext);
-        fs.renameSync(writeStreamFilePath, newPath);
-        resolve(newPath);
+        setTimeout(() => {
+          let newPath = path.resolve(path.dirname(writeStreamFilePath), './' + readStreamFileInfo.name + encryptInfo.ext);
+          fs.renameSync(writeStreamFilePath, newPath);
+          resolve(newPath);
+
+        }, 80);
       });
 
     });
