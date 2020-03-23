@@ -9,7 +9,7 @@
   require('./middleware/global.middleware').install(app);
 
   let server = app.listen(serverListen.port, serverListen.address);
-
+  console.log('http://127.0.0.1:' + serverListen.port);
 }());
 
 

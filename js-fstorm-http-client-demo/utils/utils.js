@@ -49,21 +49,6 @@ module.exports.sleep = async function (t = 1000) {
     }, t);
   });
 };
-/**
- * @description 计算分页信息
- * @param count {Number}
- * @param limit {Number}
- * @param page {Number}
- * */
-module.exports.computedPage = function (count, limit, page) {
-
-  return {
-    total: count, // 数据总条数
-    per_page: limit, // 每一页显示的数据条目
-    current_page: page, // 当前页面的页码
-    last_page: Math.ceil(count / limit), // 最后一页的页码
-  };
-};
 
 module.exports.isVersionRange = function ([v1 = null, v2 = null], diff) {
 
